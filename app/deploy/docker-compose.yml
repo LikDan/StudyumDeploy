@@ -1,0 +1,83 @@
+version: '3.1'
+
+volumes:
+  redis:
+    driver: local
+
+networks:
+  main:
+    driver: bridge
+
+services:
+  frontend:
+    image: frontend
+    restart: always
+    env_file:
+      - ./env/frontend.env
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./../ssl:/srv/ssl:r
+    networks:
+      - main
+    
+    
+  backend:
+    image: backend
+    restart: always
+    env_file:
+      - ./env/backend.env
+    ports:
+      - "180:80"
+      - "1443:443"
+      - "4772:4772"
+    volumes:
+      - ./../ssl:/ssl:r
+    networks:
+      - main
+
+  redis:
+    image: redis:6.2-alpine
+    restart: always
+    command: redis-server --save 20 1 --loglevel warning --requirepass cee6159087222e4b00e8ff8d44b9ab46
+    ports:
+      - '2884:6379'
+    volumes:
+      - redis:/data
+    networks:
+      - main
+
+  mongo:
+    image: mongo
+    restart: always
+    env_file:
+      - ./env/mongo.env
+    ports:
+      - "32:27017"
+    volumes:
+      - ./../backups/main:/backups:r
+      - ./../database/main/data:/data/db:rw
+
+  clickhouse:
+    image: clickhouse/clickhouse-server
+    ports:
+      - "4186:8123"
+    volumes:
+      - ./../database/i18n/data:/var/lib/clickhouse/data:rw
+      - ./../logs/clickhouse/err.log:/var/log/clickhouse-server/clickhouse-server.err.log:rw
+      - ./../logs/clickhouse/log.log:/var/log/clickhouse-server/clickhouse-server.log:rw
+      - ./configs/clickhouse/users.xml:/etc/clickhouse-server/users.xml:rw
+    environment:
+      - CLICKHOUSE_CONFIG_PATH=/etc/clickhouse-server/config.xml
+
+  mongo-backup:
+    image: stefanprodan/mgob
+    restart: always
+    ports:
+      - "322:8090"
+    volumes:
+      - ./../backups/main:/storage:rw
+      - ./configs/backups/main.yaml:/config/main.yaml:r
+
+

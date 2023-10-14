@@ -1,0 +1,10 @@
+scheduler:
+  cron: "@hourly"
+  retention: 336 #every hour for 14 days
+  timeout: 60
+
+target:
+  host: "api.studyum.net"
+  port: 32
+  username: "studyum"
+  password: "f4171dfb7387749d53c2bcf1d1afcaefa28a2e1f96287a51d99f118fb93001d886c64ae433c4adeac82462e9e451ad54222c2ed4ef4dc7217adebd8197393b1aa978a2fb5cfe35197e85d65595c5701b"

@@ -1,0 +1,13 @@
+deploy/configs/clickhouse/users.xml
+
+database/i18n/data
+database/main/data
+
+logs/clickhouse
+
+ssl/studyum_net.crt
+ssl/studyum_net.key
+
+deploy/env/frontend.env
+deploy/env/backend.env
+deploy/env/mongo.env
