@@ -29,8 +29,8 @@ services:
     env_file:
       - ./env/backend.env
     ports:
-      - "80:180"
-      - "443:1443"
+      - "180:8080"
+      - "1443:443"
       - "4772:4772"
     volumes:
       - ./../ssl:/ssl:r
