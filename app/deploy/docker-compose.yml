@@ -12,6 +12,8 @@ services:
   frontend:
     image: frontend
     restart: always
+    depends_on:
+      - backend
     env_file:
       - ./env/frontend.env
     ports:
@@ -21,13 +23,16 @@ services:
       - ./../ssl:/srv/ssl:r
     networks:
       - main
-    
-    
+
   backend:
     image: backend
     restart: always
     env_file:
       - ./env/backend.env
+    depends_on:
+      - mongo
+      - clickhouse
+      - redis
     ports:
       - "180:8080"
       - "1443:443"
