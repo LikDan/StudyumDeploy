@@ -4,10 +4,6 @@ volumes:
   redis:
     driver: local
 
-networks:
-  main:
-    driver: bridge
-
 services:
   frontend:
     image: frontend
@@ -21,8 +17,6 @@ services:
       - "443:443"
     volumes:
       - ./../ssl:/srv/ssl:r
-    networks:
-      - main
 
   backend:
     image: backend
@@ -39,8 +33,6 @@ services:
       - "4772:4772"
     volumes:
       - ./../ssl:/ssl:r
-    networks:
-      - main
 
   redis:
     image: redis:6.2-alpine
@@ -50,8 +42,6 @@ services:
       - '2884:6379'
     volumes:
       - redis:/data
-    networks:
-      - main
 
   mongo:
     image: mongo
