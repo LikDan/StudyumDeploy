@@ -14,4 +14,4 @@ docker compose up -d
 
 echo "Waiting for 15 seconds"
 sleep 15
-docker compose logs
+docker compose ps
