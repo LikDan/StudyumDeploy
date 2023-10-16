@@ -10,4 +10,5 @@ ssl/studyum_net.key
 
 deploy/env/frontend.env
 deploy/env/backend.env
+deploy/env/postgres.env
 deploy/env/mongo.env
