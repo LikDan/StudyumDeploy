@@ -54,17 +54,15 @@ services:
       - ./../backups/main:/backups:r
       - ./../database/main/data:/data/db:rw
 
-  clickhouse:
-    image: clickhouse/clickhouse-server
+  postgres:
+    image: postgres
+    restart: always
+    env_file:
+      - ./env/postgres.env
     ports:
-      - "4186:8123"
+      - "4186:5432"
     volumes:
-      - ./../database/i18n/data:/var/lib/clickhouse/data:rw
-      - ./../logs/clickhouse/err.log:/var/log/clickhouse-server/clickhouse-server.err.log:rw
-      - ./../logs/clickhouse/log.log:/var/log/clickhouse-server/clickhouse-server.log:rw
-      - ./configs/clickhouse/users.xml:/etc/clickhouse-server/users.xml:rw
-    environment:
-      - CLICKHOUSE_CONFIG_PATH=/etc/clickhouse-server/config.xml
+      - ./../database/i18n/data:/var/lib/postgresql/data:rw
 
   mongo-backup:
     image: stefanprodan/mgob
