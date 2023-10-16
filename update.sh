@@ -12,8 +12,6 @@ cd app/deploy || exit
 docker compose down
 docker compose up -d
 
-if [ -n "$2" ]; then
-    docker compose logs -f
-else
-    docker compose logs
-fi
+echo "Waiting for 15 seconds"
+sleep 15
+docker compose logs
